@@ -1,6 +1,6 @@
 from django.test import TestCase
 from .models import Article
-from ..account.models import User
+from account.models import User
 import json
 
 # Create your tests here.
@@ -23,7 +23,7 @@ class CreateTest(TestCase):
         data = {
             'title': 'test_title',
             'content': 'test_success',
-            'user': self.user,
+            'user': self.user.id,
         }
         response= self.client.post('/community/', json.dumps(data), content_type = 'application/json')
         self.assertEqual(response.status_code, 200)
