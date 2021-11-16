@@ -49,7 +49,12 @@ class ReadTest(TestCase):
             user=self.user
         )
         self.article.save()
-    
+
+
+    def tearDown(self):
+        self.user.delete()
+        self.article.delete()
+        
     
     def test_read_article_list(self):
         response = self.client.get('/community/')
@@ -57,6 +62,5 @@ class ReadTest(TestCase):
     
 
     def test_read_article_detail(self):
-        article = Article.objects.get()
-        response = self.client.get('/community/{{ article.pk }}/')
+        response = self.client.get('/community/1/')
         self.assertEqual(response.status_code, 200)
