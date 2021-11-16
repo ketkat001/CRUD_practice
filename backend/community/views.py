@@ -39,3 +39,9 @@ class ArticleDetailAPI(generics.GenericAPIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+
+
+    def delete(self, request, pk):
+        article = generics.get_object_or_404(Article, pk=pk)
+        article.delete()
+        return Response('Successful delete')
