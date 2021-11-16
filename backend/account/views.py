@@ -6,10 +6,10 @@ from .models import User
 
 # Create your views here.
 
-class RegistrationAPI(generics.GenericAPIView):
+class SignupAPI(generics.GenericAPIView):
     serializer_class = CreateUserSerializer
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
