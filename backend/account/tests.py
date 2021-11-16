@@ -15,7 +15,5 @@ class SignupTest(TestCase):
             'last_name': 'KANG',
             'email': 'ketkat001@naver.com',
         }
-
-        response = client.post('account/signup', json.dumps(data), content_type = 'application/json')
-
+        response = client.post('/account/signup/', json.dumps(data), content_type = 'application/json')
         self.assertEqual(response.status_code, 200)
