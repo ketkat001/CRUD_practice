@@ -30,3 +30,12 @@ class ArticleDetailAPI(generics.GenericAPIView):
         article = generics.get_object_or_404(Article, pk=pk)
         serializer = ArticleSerializer(article)
         return Response(serializer.data)
+
+
+    def put(self, request, pk):
+        article = generics.get_object_or_404(Article, pk=pk)
+        serializer = ArticleSerializer(article, data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
