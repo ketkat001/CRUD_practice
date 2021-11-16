@@ -6,7 +6,7 @@ import json
 # Create your tests here.
 
 
-class CreateTest(TestCase):
+class ViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             username="test_user", 
@@ -15,10 +15,17 @@ class CreateTest(TestCase):
             first_name="test",
             last_name="user")
         self.user.save()
-    
+        self.article = Article.objects.create(
+            title="test_title",
+            content="test_content",
+            user=self.user
+        )
+        self.article.save()
+
 
     def tearDown(self):
         self.user.delete()
+        self.article.delete()
     
 
     def test_create_article(self):
@@ -34,29 +41,20 @@ class CreateTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class ReadTest(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(
-            username="test_user", 
-            password="1q2w3e4r!!",
-            email="test@naver.com",
-            first_name="test",
-            last_name="user")
-        self.user.save()
-        self.article = Article.objects.create(
-            title="test_title",
-            content="test_content",
-            user=self.user
-        )
-        self.article.save()
-    
-    
     def test_read_article_list(self):
         response = self.client.get('/community/')
         self.assertEqual(response.status_code, 200)
     
 
     def test_read_article_detail(self):
-        article = Article.objects.get()
-        response = self.client.get('/community/{{ article.pk }}/')
+        response = self.client.get('/community/1/')
+        self.assertEqual(response.status_code, 200)
+
+
+    def test_update_article(self):
+        change_title = {'title': 'changed_test_title'}
+        response = self.client.put(
+            '/community/1/', 
+            change_title, 
+            content_type = 'application/json')
         self.assertEqual(response.status_code, 200)
