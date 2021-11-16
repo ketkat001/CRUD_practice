@@ -65,4 +65,4 @@ class ViewTest(TestCase):
             '/community/1/',
             content_type = 'application/json'
         )
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 200)
