@@ -1,13 +1,14 @@
-from rest_framework import generics, serializers
+from rest_framework import generics, permissions
 from rest_framework.response import Response
-from .serializers import ArticleSerializer
 from .models import Article
+from .permissions import IsArticleAuthorOrReadOnly
+from .serializers import ArticleSerializer
 
 
 class ArticleAPI(generics.GenericAPIView):
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
-
+    
     def get(self, request):
         queryset = Article.objects.all()
         serializer = ArticleSerializer(queryset, many=True)
@@ -24,8 +25,7 @@ class ArticleAPI(generics.GenericAPIView):
 
 class ArticleDetailAPI(generics.GenericAPIView):
     serializer_class = ArticleSerializer
-
-
+    permission_classes = [IsArticleAuthorOrReadOnly]
     def get(self, request, pk):
         article = generics.get_object_or_404(Article, pk=pk)
         serializer = ArticleSerializer(article)
@@ -35,6 +35,8 @@ class ArticleDetailAPI(generics.GenericAPIView):
     def put(self, request, pk):
         article = generics.get_object_or_404(Article, pk=pk)
         serializer = ArticleSerializer(article, data = request.data)
+        if self.user != request.user:
+            return Response(serializer.errors)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
