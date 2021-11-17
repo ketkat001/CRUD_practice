@@ -4,6 +4,7 @@ from .models import Article
 from .permissions import IsArticleAuthorOrReadOnly
 from .serializers import ArticleSerializer
 from backend.pagination import CustomPagination
+from django.db.models import Q
 
 
 class ArticleAPI(generics.GenericAPIView):
@@ -13,7 +14,12 @@ class ArticleAPI(generics.GenericAPIView):
 
     
     def get(self, request):
-        queryset = Article.objects.all()
+        if 'q' in request.GET:
+            query = request.GET.get('q')
+            queryset = Article.objects.all().filter(
+                Q(title__contains=query) | Q(content__contains=query))
+        else:
+            queryset = Article.objects.all()
         page = self.paginate_queryset(queryset)
         serializer = ArticleSerializer(page, many=True)
         result = self.get_paginated_response(serializer.data)
