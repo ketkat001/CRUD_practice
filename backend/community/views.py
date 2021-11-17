@@ -3,16 +3,21 @@ from rest_framework.response import Response
 from .models import Article
 from .permissions import IsArticleAuthorOrReadOnly
 from .serializers import ArticleSerializer
+from backend.pagination import CustomPagination
 
 
 class ArticleAPI(generics.GenericAPIView):
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
+    pagination_class = CustomPagination
+
     
     def get(self, request):
         queryset = Article.objects.all()
-        serializer = ArticleSerializer(queryset, many=True)
-        return Response(serializer.data)
+        page = self.paginate_queryset(queryset)
+        serializer = ArticleSerializer(page, many=True)
+        result = self.get_paginated_response(serializer.data)
+        return Response(result.data)
 
 
     def post(self, request):
