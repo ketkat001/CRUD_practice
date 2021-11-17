@@ -3,6 +3,8 @@ from rest_framework import generics
 from rest_framework.response import Response
 from .serializers import CreateUserSerializer, UserSerializer, LoginUserSerializer
 from .models import User
+from knox.models import AuthToken
+
 
 # Create your views here.
 
@@ -16,7 +18,8 @@ class SignupAPI(generics.GenericAPIView):
             {
                 'user' : UserSerializer(
                     user, context = self.get_serializer_context()
-                ).data
+                ).data,
+                "token": AuthToken.objects.create(user)[1],
             }
         )
 
@@ -30,6 +33,7 @@ class LoginAPI(generics.GenericAPIView):
             {
                 'user': UserSerializer(
                     user, context=self.get_serializer_context()
-                ).data
+                ).data,
+                 "token": AuthToken.objects.create(user)[1],
             }
         )

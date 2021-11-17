@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'account',
     'community',
     'rest_framework',
+    'knox',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'account.User'
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",),
+}

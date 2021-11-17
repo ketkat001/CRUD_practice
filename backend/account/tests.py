@@ -34,7 +34,7 @@ class LoginTest(TestCase):
     def test_login(self):
         data = {
             'password': '1q2w3e4r!!',
-            'username': 'ketkat',
+            'username': 'test_user',
         }
         response= self.client.post('/account/login/', json.dumps(data), content_type = 'application/json')
         self.assertEqual(response.status_code, 200)
