@@ -8,7 +8,7 @@ import json
 
 class ViewTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(
+        self.user = User.objects.create(
             username="test_user", 
             password="1q2w3e4r!!",
             email="test@naver.com",

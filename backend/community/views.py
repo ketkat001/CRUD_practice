@@ -35,9 +35,9 @@ class ArticleDetailAPI(generics.GenericAPIView):
     def put(self, request, pk):
         article = generics.get_object_or_404(Article, pk=pk)
         serializer = ArticleSerializer(article, data = request.data)
-        if self.user != request.user:
-            return Response(serializer.errors)
         if serializer.is_valid():
+            if article.user != request.user:
+                return Response(serializer.errors)
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
