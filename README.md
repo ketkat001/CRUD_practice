@@ -14,13 +14,17 @@ It's a simple CRUD app using Django framework for Python. For practice DRF and C
 | backend - 007 | 글 수정 및 삭제에 대한 권한 확인 코드 작성 (작성자만 수정 삭제가 가능하도록) |
 | backend - 008 | 일반적인 게시글에 필요한 추가 기능 삽입 (페이지네이션, 검색) |
 
+### API 목록
+  ##### (POST) account/login   | 로그인
+  ##### (POST) account/signup  | 회원가입
+  ##### (GET) community        | 게시판 조회
+  ##### (POST) community       | 게시글 작성
+  ##### (GET) community/<pk>   | 게시글 디테일 조회
+  ##### (PUT) community/<pk>   | 게시글 수정
+  ##### (DELETE) community/<pk>| 게시글 삭제
+  
 
-.| api                 | api 목적                                              |
-| ---------------------|-------------------------------------------------------|
-| account/login        | 로그인                                                |
-| account/signup       | 회원가입                                              |
-|(GET)community        | 게시판 조회                                           |
-|(POST)community       | 게시글 작성                                           |
-|(GET)community/<pk>   | 게시글 디테일 조회                                    |
-|(PUT)community/<pk>   | 게시글 수정                                           |
-|(DELETE)community/<pk>| 게시글 삭제                                           |
+### 기능 TEST
+  python manage.py test
+  - 로그인, 회원가입
+  - 게시글 조회 수정 삭제
