@@ -10,8 +10,6 @@ class SignupTest(TestCase):
         data = {
             'password': '1q2w3e4r!!',
             'username': 'ketkat',
-            'first_name': 'YONGJOON',
-            'last_name': 'KANG',
             'email': 'ketkat001@naver.com',
         }
         response = self.client.post('/account/signup/', json.dumps(data), content_type = 'application/json')
@@ -23,9 +21,7 @@ class LoginTest(TestCase):
         self.user = User.objects.create_user(
             username="test_user", 
             password="1q2w3e4r!!",
-            email="test@naver.com",
-            first_name="test",
-            last_name="user")
+            email="test@naver.com",)
         self.user.save()
     
     def tearDown(self):
